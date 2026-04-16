@@ -34,3 +34,7 @@ data class RefreshTokenResponse(val accessToken: String, val refreshToken: Strin
 data class ResendVerificationRequest(val email: String)
 
 data class VerifyEmailRequest(val token: String)
+
+data class ResetPasswordRequest(val token: String, val password: String)
+
+data class FcmTokenRequest(val fcmToken: String)
