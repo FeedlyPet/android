@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -13,6 +14,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -31,6 +35,18 @@ import com.example.feedlypet.ui.theme.GreenOnline
 import com.example.feedlypet.ui.theme.RedLevel
 
 @Composable
+fun AppSnackbarHost(hostState: SnackbarHostState) {
+    SnackbarHost(hostState) { data ->
+        Snackbar(
+            snackbarData = data,
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            actionColor = MaterialTheme.colorScheme.primary,
+        )
+    }
+}
+
+@Composable
 fun StatusChip(isOnline: Boolean) {
     val (color, label) = if (isOnline)
         Pair(GreenOnline, stringResource(R.string.devices_status_online))
@@ -39,7 +55,7 @@ fun StatusChip(isOnline: Boolean) {
 
     Surface(
         color = color.copy(alpha = 0.15f),
-        shape = MaterialTheme.shapes.small
+        shape = RoundedCornerShape(50)
     ) {
         Text(
             text = label,
@@ -156,11 +172,17 @@ fun speciesEmoji(species: String): String = when (species.lowercase()) {
 
 fun formatTimestamp(iso: String): String {
     return try {
-        val ldt = java.time.LocalDateTime.parse(iso.take(19))
-        val zdt = ldt.atOffset(java.time.ZoneOffset.UTC)
-            .atZoneSameInstant(java.time.ZoneId.systemDefault())
+        val instant = java.time.Instant.parse(if (iso.endsWith("Z") || iso.contains("+")) iso else "${iso}Z")
+        val zdt = instant.atZone(java.time.ZoneId.systemDefault())
         zdt.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
     } catch (e: Exception) {
-        iso.replace("T", " ").take(16)
+        try {
+            val ldt = java.time.LocalDateTime.parse(iso.take(19))
+            ldt.atOffset(java.time.ZoneOffset.UTC)
+                .atZoneSameInstant(java.time.ZoneId.systemDefault())
+                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+        } catch (e2: Exception) {
+            iso.replace("T", " ").take(16)
+        }
     }
 }
