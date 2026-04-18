@@ -6,8 +6,6 @@ import com.example.feedlypet.data.repository.DevicesRepository
 import com.example.feedlypet.data.repository.DevicesRepositoryImpl
 import com.example.feedlypet.data.repository.HistoryRepository
 import com.example.feedlypet.data.repository.HistoryRepositoryImpl
-import com.example.feedlypet.data.repository.HomeRepository
-import com.example.feedlypet.data.repository.HomeRepositoryImpl
 import com.example.feedlypet.data.repository.NotificationsRepository
 import com.example.feedlypet.data.repository.NotificationsRepositoryImpl
 import com.example.feedlypet.data.repository.PetsRepository
@@ -31,10 +29,6 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindAuthRepository(impl: AuthRepositoryImpl): AuthRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindHomeRepository(impl: HomeRepositoryImpl): HomeRepository
 
     @Binds
     @Singleton

@@ -14,6 +14,7 @@ suspend fun <T> safeApiCall(call: suspend () -> AuthResult<T>): AuthResult<T> =
         AuthResult.NetworkError
     }
 
+
 fun <T> Response<T>.parseError(): AuthResult<Nothing> {
     val message = try {
         val json = JSONObject(errorBody()?.string() ?: "")
@@ -29,6 +30,7 @@ fun <T> Response<T>.parseError(): AuthResult<Nothing> {
 }
 
 fun <T> Response<T>.bodyOrError(): AuthResult<T> {
+    if (!isSuccessful) return parseError()
     val b = body()
     return if (b != null) AuthResult.Success(b) else AuthResult.Error(code(), EMPTY_RESPONSE)
 }

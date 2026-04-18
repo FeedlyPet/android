@@ -5,7 +5,6 @@ import com.example.feedlypet.data.network.AuthApiService
 import com.example.feedlypet.data.network.AuthInterceptor
 import com.example.feedlypet.data.network.DevicesApiService
 import com.example.feedlypet.data.network.HistoryApiService
-import com.example.feedlypet.data.network.HomeApiService
 import com.example.feedlypet.data.network.NotificationsApiService
 import com.example.feedlypet.data.network.PetsApiService
 import com.example.feedlypet.data.network.ProfileApiService
@@ -60,11 +59,6 @@ object AppModule {
     @Singleton
     fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
         retrofit.create(AuthApiService::class.java)
-
-    @Provides
-    @Singleton
-    fun provideHomeApiService(retrofit: Retrofit): HomeApiService =
-        retrofit.create(HomeApiService::class.java)
 
     @Provides
     @Singleton
