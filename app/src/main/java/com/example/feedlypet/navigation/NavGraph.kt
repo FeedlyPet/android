@@ -321,7 +321,7 @@ private fun BottomNavigationBar(
     onNavigate: (String) -> Unit
 ) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.background,
         tonalElevation = Dp(0f)
     ) {
         bottomNavItems.forEach { item ->
@@ -350,9 +350,9 @@ private fun BottomNavigationBar(
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = MaterialTheme.colorScheme.primary,
                     selectedTextColor = MaterialTheme.colorScheme.primary,
-                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                    unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                    unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                    unselectedIconColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                    unselectedTextColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f)
                 )
             )
         }
