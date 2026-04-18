@@ -27,25 +27,40 @@ private val LightColorScheme = lightColorScheme(
     onError = Color(0xFFFFFFFF),
 )
 
-// Chocolate dark theme — inspired by brand "Chocolate · Stacked" lockup
+// Dark theme — exactly matches web frontend [data-theme="dark"]
+// bg-page:#1C1210  bg-card:#2E1F1A  bg-card-alt:#261815  border:#4A2E25
 private val DarkColorScheme = darkColorScheme(
-    primary = BrandCaramelDark,
-    onPrimary = BrandDarkBrown,
-    primaryContainer = BrandChocoCard,
-    onPrimaryContainer = Color(0xFFFFDCC2),
+    primary = BrandCaramelDark,           // #C4875A — accent
+    onPrimary = BrandDarkBrown,           // dark text on caramel button
+    primaryContainer = BrandChocoCardHigh,
+    onPrimaryContainer = BrandCream,
     secondary = BrandSaddle,
     onSecondary = Color(0xFFFFFFFF),
     tertiary = BrandCaramel,
     onTertiary = BrandDarkBrown,
-    background = BrandChocoBg,
-    onBackground = BrandChocoOnBg,
-    surface = BrandChocoSurface,
-    onSurface = BrandChocoOnBg,
-    surfaceVariant = BrandChocoCard,
-    onSurfaceVariant = Color(0xFFFFFFFF).copy(alpha = 0.7f),
-    outline = Color(0xFF8B5A3A),
+    background = BrandChocoBg,            // #1C1210
+    onBackground = BrandChocoOnBg,        // #F5EDE0
+    surface = BrandChocoSurface,          // #261815
+    onSurface = BrandChocoOnBg,           // #F5EDE0
+    surfaceVariant = BrandChocoCard,      // #2E1F1A — used as card variant bg
+    onSurfaceVariant = BrandChocoSubtext, // #E0C9B0
+    surfaceTint = Color.Transparent,
+    // M3 surface container ladder → maps to Card, NavBar, BottomSheet, Dropdown
+    surfaceDim = BrandChocoBg,
+    surfaceContainerLowest = BrandChocoBg,
+    surfaceContainerLow = BrandChocoSurface,
+    surfaceContainer = BrandChocoCard,          // #2E1F1A — default Card bg
+    surfaceContainerHigh = BrandChocoCardHigh,  // #3D2212 — elevated
+    surfaceContainerHighest = BrandChocoPopup,  // #4A2E25 — DropdownMenu / BottomSheet
+    surfaceBright = BrandChocoPopup,
+    outline = BrandChocoBorder,           // #4A2E25
+    outlineVariant = BrandChocoSurface,   // #261815
+    inverseSurface = BrandChocoCardHigh,  // Snackbar background — dark brown
+    inverseOnSurface = BrandChocoOnBg,    // Snackbar text — cream white
+    inversePrimary = BrandCaramelDark,    // Snackbar action color
     error = Color(0xFFFFB4AB),
     onError = Color(0xFF690005),
+    scrim = Color(0xFF1A0E06),
 )
 
 @Composable
