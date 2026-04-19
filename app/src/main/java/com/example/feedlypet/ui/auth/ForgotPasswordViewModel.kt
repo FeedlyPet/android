@@ -4,15 +4,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.feedlypet.data.repository.AuthRepository
 import com.example.feedlypet.domain.model.AuthResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ForgotPasswordViewModel(private val repository: AuthRepository) : ViewModel() {
+@HiltViewModel
+class ForgotPasswordViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
 
     var email by mutableStateOf("")
         private set
@@ -58,10 +62,5 @@ class ForgotPasswordViewModel(private val repository: AuthRepository) : ViewMode
     private fun mapErrorCode(code: Int) = when (code) {
         404 -> "No account found with this email"
         else -> "Something went wrong. Please try again"
-    }
-
-    class Factory(private val repository: AuthRepository) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T = ForgotPasswordViewModel(repository) as T
     }
 }

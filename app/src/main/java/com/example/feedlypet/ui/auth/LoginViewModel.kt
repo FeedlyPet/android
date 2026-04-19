@@ -4,15 +4,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.feedlypet.data.local.TokenManager
+import com.example.feedlypet.data.network.tryRegisterFcmToken
 import com.example.feedlypet.data.repository.AuthRepository
 import com.example.feedlypet.domain.model.AuthResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: AuthRepository,
+    private val tokenManager: TokenManager
+) : ViewModel() {
 
     var email by mutableStateOf("")
         private set
@@ -42,7 +49,10 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Loading
             _uiState.value = when (val result = repository.login(email, password)) {
-                is AuthResult.Success -> AuthUiState.Success()
+                is AuthResult.Success -> {
+                    tokenManager.getFcmToken()?.let { repository.tryRegisterFcmToken(it) }
+                    AuthUiState.Success()
+                }
                 is AuthResult.Error -> AuthUiState.Error(mapErrorCode(result.code))
                 is AuthResult.NetworkError -> AuthUiState.Error("No internet connection")
             }
@@ -73,10 +83,5 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
         401 -> "Invalid email or password"
         403 -> "Please verify your email first"
         else -> "Login failed. Please try again"
-    }
-
-    class Factory(private val repository: AuthRepository) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T = LoginViewModel(repository) as T
     }
 }

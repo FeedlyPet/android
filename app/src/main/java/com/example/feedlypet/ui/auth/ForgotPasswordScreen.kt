@@ -18,8 +18,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import com.example.feedlypet.ui.components.AppSnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -35,33 +35,31 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.feedlypet.data.repository.AuthRepository
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.feedlypet.ui.auth.components.AuthButton
 import com.example.feedlypet.ui.auth.components.AuthTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ForgotPasswordScreen(
-    repository: AuthRepository,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    viewModel: ForgotPasswordViewModel = hiltViewModel()
 ) {
-    val vm: ForgotPasswordViewModel = viewModel(factory = ForgotPasswordViewModel.Factory(repository))
-    val uiState by vm.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(uiState) {
         when (val state = uiState) {
             is AuthUiState.Error -> {
                 snackbarHostState.showSnackbar(state.message)
-                vm.resetState()
+                viewModel.resetState()
             }
             else -> Unit
         }
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { AppSnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
                 title = { Text("Forgot Password") },
@@ -119,7 +117,7 @@ fun ForgotPasswordScreen(
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "We sent a password reset link to ${vm.email}",
+                            text = "We sent a password reset link to ${viewModel.email}",
                             style = MaterialTheme.typography.bodyMedium,
                             textAlign = TextAlign.Center
                         )
@@ -127,18 +125,18 @@ fun ForgotPasswordScreen(
                 }
             } else {
                 AuthTextField(
-                    value = vm.email,
-                    onValueChange = vm::onEmailChange,
+                    value = viewModel.email,
+                    onValueChange = viewModel::onEmailChange,
                     label = "Email",
-                    error = vm.emailError,
+                    error = viewModel.emailError,
                     keyboardType = KeyboardType.Email,
                     imeAction = ImeAction.Done,
-                    onImeAction = { vm.submit() }
+                    onImeAction = { viewModel.submit() }
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 AuthButton(
                     text = "Send Reset Link",
-                    onClick = { vm.submit() },
+                    onClick = { viewModel.submit() },
                     isLoading = uiState is AuthUiState.Loading
                 )
             }
