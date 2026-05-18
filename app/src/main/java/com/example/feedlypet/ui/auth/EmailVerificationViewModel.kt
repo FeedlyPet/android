@@ -1,17 +1,21 @@
 package com.example.feedlypet.ui.auth
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.feedlypet.data.repository.AuthRepository
 import com.example.feedlypet.domain.model.AuthResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class EmailVerificationViewModel(private val repository: AuthRepository) : ViewModel() {
+@HiltViewModel
+class EmailVerificationViewModel @Inject constructor(
+    private val repository: AuthRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow<AuthUiState>(AuthUiState.Idle)
     val uiState = _uiState.asStateFlow()
@@ -54,11 +58,5 @@ class EmailVerificationViewModel(private val repository: AuthRepository) : ViewM
                 _cooldown.value -= 1
             }
         }
-    }
-
-    class Factory(private val repository: AuthRepository) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T =
-            EmailVerificationViewModel(repository) as T
     }
 }

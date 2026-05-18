@@ -9,8 +9,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import com.example.feedlypet.ui.components.AppSnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -24,20 +24,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.feedlypet.data.repository.AuthRepository
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.feedlypet.ui.auth.components.AuthButton
 import com.example.feedlypet.ui.auth.components.AuthTextField
 import com.example.feedlypet.ui.auth.components.PawLogo
 
 @Composable
 fun RegisterScreen(
-    repository: AuthRepository,
     onRegisterSuccess: (email: String) -> Unit,
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    val vm: RegisterViewModel = viewModel(factory = RegisterViewModel.Factory(repository))
-    val uiState by vm.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(uiState) {
@@ -45,13 +43,13 @@ fun RegisterScreen(
             is AuthUiState.Success -> onRegisterSuccess(state.message)
             is AuthUiState.Error -> {
                 snackbarHostState.showSnackbar(state.message)
-                vm.resetState()
+                viewModel.resetState()
             }
             else -> Unit
         }
     }
 
-    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
+    Scaffold(snackbarHost = { AppSnackbarHost(snackbarHostState) }) { padding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -78,36 +76,36 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             AuthTextField(
-                value = vm.name,
-                onValueChange = vm::onNameChange,
+                value = viewModel.name,
+                onValueChange = viewModel::onNameChange,
                 label = "Full Name",
-                error = vm.nameError,
+                error = viewModel.nameError,
                 imeAction = ImeAction.Next
             )
             Spacer(modifier = Modifier.height(12.dp))
             AuthTextField(
-                value = vm.email,
-                onValueChange = vm::onEmailChange,
+                value = viewModel.email,
+                onValueChange = viewModel::onEmailChange,
                 label = "Email",
-                error = vm.emailError,
+                error = viewModel.emailError,
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
             )
             Spacer(modifier = Modifier.height(12.dp))
             AuthTextField(
-                value = vm.password,
-                onValueChange = vm::onPasswordChange,
+                value = viewModel.password,
+                onValueChange = viewModel::onPasswordChange,
                 label = "Password",
                 isPassword = true,
-                error = vm.passwordError,
+                error = viewModel.passwordError,
                 imeAction = ImeAction.Done,
-                onImeAction = { vm.register() }
+                onImeAction = { viewModel.register() }
             )
 
             Spacer(modifier = Modifier.height(24.dp))
             AuthButton(
                 text = "Create Account",
-                onClick = { vm.register() },
+                onClick = { viewModel.register() },
                 isLoading = uiState is AuthUiState.Loading
             )
 

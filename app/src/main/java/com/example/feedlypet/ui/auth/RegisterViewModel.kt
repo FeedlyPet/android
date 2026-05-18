@@ -4,15 +4,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.feedlypet.data.local.TokenManager
+import com.example.feedlypet.data.network.tryRegisterFcmToken
 import com.example.feedlypet.data.repository.AuthRepository
 import com.example.feedlypet.domain.model.AuthResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RegisterViewModel(private val repository: AuthRepository) : ViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val repository: AuthRepository,
+    private val tokenManager: TokenManager
+) : ViewModel() {
 
     var name by mutableStateOf("")
         private set
@@ -39,7 +46,10 @@ class RegisterViewModel(private val repository: AuthRepository) : ViewModel() {
         viewModelScope.launch {
             _uiState.value = AuthUiState.Loading
             _uiState.value = when (val result = repository.register(email, password, name)) {
-                is AuthResult.Success -> AuthUiState.Success(result.data.user.email)
+                is AuthResult.Success -> {
+                    tokenManager.getFcmToken()?.let { repository.tryRegisterFcmToken(it) }
+                    AuthUiState.Success(result.data.user.email)
+                }
                 is AuthResult.Error -> AuthUiState.Error(mapErrorCode(result.code))
                 is AuthResult.NetworkError -> AuthUiState.Error("No internet connection")
             }
@@ -73,10 +83,5 @@ class RegisterViewModel(private val repository: AuthRepository) : ViewModel() {
     private fun mapErrorCode(code: Int) = when (code) {
         409 -> "An account with this email already exists"
         else -> "Registration failed. Please try again"
-    }
-
-    class Factory(private val repository: AuthRepository) : ViewModelProvider.Factory {
-        @Suppress("UNCHECKED_CAST")
-        override fun <T : ViewModel> create(modelClass: Class<T>): T = RegisterViewModel(repository) as T
     }
 }

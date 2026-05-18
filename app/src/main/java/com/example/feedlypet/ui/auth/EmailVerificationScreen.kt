@@ -9,8 +9,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import com.example.feedlypet.ui.components.AppSnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -24,38 +24,34 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.feedlypet.data.repository.AuthRepository
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.feedlypet.ui.auth.components.AuthButton
 
 @Composable
 fun EmailVerificationScreen(
     email: String,
-    repository: AuthRepository,
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    viewModel: EmailVerificationViewModel = hiltViewModel()
 ) {
-    val vm: EmailVerificationViewModel = viewModel(
-        factory = EmailVerificationViewModel.Factory(repository)
-    )
-    val uiState by vm.uiState.collectAsState()
-    val cooldown by vm.cooldown.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val cooldown by viewModel.cooldown.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(uiState) {
         when (val state = uiState) {
             is AuthUiState.Success -> {
                 snackbarHostState.showSnackbar("Verification email sent!")
-                vm.resetState()
+                viewModel.resetState()
             }
             is AuthUiState.Error -> {
                 snackbarHostState.showSnackbar(state.message)
-                vm.resetState()
+                viewModel.resetState()
             }
             else -> Unit
         }
     }
 
-    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
+    Scaffold(snackbarHost = { AppSnackbarHost(snackbarHostState) }) { padding ->
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -100,7 +96,7 @@ fun EmailVerificationScreen(
 
             AuthButton(
                 text = if (cooldown > 0) "Resend Email ($cooldown s)" else "Resend Email",
-                onClick = { vm.resendEmail(email) },
+                onClick = { viewModel.resendEmail(email) },
                 isLoading = uiState is AuthUiState.Loading,
                 enabled = cooldown == 0
             )
