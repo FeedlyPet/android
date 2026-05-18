@@ -1,0 +1,201 @@
+<resources>
+    <string name="app_name">FeedlyPet</string>
+
+    <!-- Notification Channels -->
+    <string name="channel_feeding_name">Годування</string>
+    <string name="channel_device_status_name">Статус пристрою</string>
+    <string name="channel_food_level_name">Рівень корму</string>
+
+    <!-- Common -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Скасувати</string>
+    <string name="common_confirm">Підтвердити</string>
+    <string name="common_retry">Повторити</string>
+    <string name="common_save">Зберегти</string>
+    <string name="common_delete">Видалити</string>
+    <string name="common_edit">Редагувати</string>
+    <string name="common_copy">Копіювати</string>
+    <string name="common_loading">Завантаження…</string>
+    <string name="common_error_network">Помилка мережі. Спробуйте знову.</string>
+    <string name="common_error_unknown">Щось пішло не так. Спробуйте знову.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Головна</string>
+    <string name="nav_pets">Тварини</string>
+    <string name="nav_devices">Пристрої</string>
+    <string name="nav_alerts">Сповіщення</string>
+    <string name="nav_profile">Профіль</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Пропустити</string>
+    <string name="onboarding_next">Далі →</string>
+    <string name="onboarding_login">Увійти</string>
+    <string name="onboarding_register">Створити акаунт</string>
+    <string name="onboarding_title_1">Ласкаво просимо до FeedlyPet!</string>
+    <string name="onboarding_subtitle_1">Розумна годівниця для вашого улюбленця</string>
+    <string name="onboarding_title_2">Розклад годування</string>
+    <string name="onboarding_subtitle_2">Налаштуйте час та розмір порцій — пристрій зробить все сам</string>
+    <string name="onboarding_title_3">Моніторинг онлайн</string>
+    <string name="onboarding_subtitle_3">Слідкуйте за рівнем їжі в реальному часі</string>
+    <string name="onboarding_title_4">Завжди в курсі</string>
+    <string name="onboarding_subtitle_4">Отримуйте сповіщення про кожне годування та низький рівень їжі</string>
+
+    <!-- Auth -->
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Пароль</string>
+    <string name="auth_confirm_password">Підтвердження пароля</string>
+    <string name="auth_name">Ім\'я</string>
+    <string name="auth_timezone">Часовий пояс</string>
+    <string name="auth_login_title">Увійти</string>
+    <string name="auth_login_button">Увійти</string>
+    <string name="auth_forgot_password">Забули пароль?</string>
+    <string name="auth_no_account">Немає акаунту? Зареєструватися</string>
+    <string name="auth_register_title">Створити акаунт</string>
+    <string name="auth_register_button">Зареєструватися</string>
+    <string name="auth_already_have_account">Вже є акаунт? Увійти</string>
+    <string name="auth_forgot_password_title">Відновлення пароля</string>
+    <string name="auth_forgot_password_button">Надіслати інструкції</string>
+    <string name="auth_forgot_password_sent">Якщо акаунт існує, ми надіслали вам інструкції.</string>
+    <string name="auth_back_to_login">Назад до входу</string>
+    <string name="auth_verify_email_title">Підтвердіть Email</string>
+    <string name="auth_verify_email_message">Ми надіслали посилання для підтвердження на вашу пошту.</string>
+    <string name="auth_resend_code">Надіслати повторно</string>
+    <string name="auth_resend_cooldown">Надіслати через %dс</string>
+    <string name="auth_reset_password_title">Скинути пароль</string>
+    <string name="auth_reset_password_button">Скинути пароль</string>
+    <string name="auth_reset_password_success">Пароль успішно змінено.</string>
+    <string name="auth_new_password">Новий пароль</string>
+    <string name="auth_confirm_new_password">Підтвердження нового пароля</string>
+    <string name="auth_error_email_required">Email є обов\'язковим</string>
+    <string name="auth_error_email_invalid">Введіть коректний email</string>
+    <string name="auth_error_password_required">Пароль є обов\'язковим</string>
+    <string name="auth_error_password_min">Пароль має містити мінімум 8 символів</string>
+    <string name="auth_error_name_required">Ім\'я є обов\'язковим</string>
+    <string name="auth_error_name_min">Ім\'я має містити мінімум 2 символи</string>
+    <string name="auth_error_passwords_mismatch">Паролі не співпадають</string>
+    <string name="auth_error_invalid_credentials">Невірний email або пароль</string>
+    <string name="auth_error_verify_email">Будь ласка, підтвердіть email спочатку</string>
+    <string name="auth_error_email_taken">Акаунт з таким email вже існує</string>
+
+    <!-- Home -->
+    <string name="home_title">Головна</string>
+    <string name="home_pets_count">Тварини</string>
+    <string name="home_devices_status">Пристрої</string>
+    <string name="home_unread_notifications">Непрочитані</string>
+    <string name="home_devices_section">Ваші пристрої</string>
+    <string name="home_recent_events">Останні події</string>
+    <string name="home_this_week">Цього тижня</string>
+
+    <!-- Stats (dashboard) -->
+    <string name="stats_feedings">годувань</string>
+    <string name="stats_food_served">корму подано</string>
+    <string name="stats_avg_portion">серед. порція</string>
+    <string name="stats_success_rate">успішність</string>
+
+    <!-- Devices -->
+    <string name="devices_title">Пристрої</string>
+    <string name="devices_status_online">Онлайн</string>
+    <string name="devices_status_offline">Офлайн</string>
+    <string name="devices_add">Додати пристрій</string>
+    <string name="devices_empty">Пристроїв ще немає.\nДодайте першу годівницю!</string>
+    <string name="devices_location">Місце: %s</string>
+    <string name="devices_last_seen">Останній зв\'язок: %s</string>
+    <string name="devices_no_pet">Тварину не прив\'язано</string>
+    <string name="device_detail_title">Деталі пристрою</string>
+    <string name="device_feed_now">Годувати зараз</string>
+    <string name="device_feed_command_sent">Команду годування надіслано!</string>
+    <string name="device_portion_size">Порція: %dг</string>
+    <string name="device_food_level">Рівень їжі</string>
+    <string name="device_register_title">Реєстрація пристрою</string>
+    <string name="device_hardware_id">ID пристрою</string>
+    <string name="device_name">Назва пристрою</string>
+    <string name="device_location_hint">Місце встановлення (необов\'язково)</string>
+    <string name="device_assign_pet">Прив\'язати тварину (необов\'язково)</string>
+    <string name="device_register_success">Пристрій зареєстровано!</string>
+    <string name="device_mqtt_password">MQTT пароль: %s</string>
+    <string name="device_mqtt_warning">Збережіть цей пароль — він більше не буде показаний</string>
+    <string name="device_copy_password">Скопіювати пароль</string>
+    <string name="device_regen_password_title">Оновити пароль</string>
+    <string name="device_regen_password_message">Старий пароль перестане працювати. Продовжити?</string>
+    <string name="device_delete_title">Видалити пристрій</string>
+    <string name="device_delete_message">Видалити %s? Цю дію неможливо скасувати.</string>
+    <string name="device_view_schedules">Управління розкладами</string>
+    <string name="device_view_history">Всі події</string>
+    <string name="device_view_statistics">Статистика</string>
+
+    <!-- Schedules -->
+    <string name="schedules_title">Розклади</string>
+    <string name="schedules_add">Додати розклад</string>
+    <string name="schedules_empty">Розкладів ще немає.</string>
+    <string name="schedules_filter_all">Всі</string>
+    <string name="schedules_filter_active">Активні</string>
+    <string name="schedules_filter_inactive">Неактивні</string>
+    <string name="schedules_portion">%dг</string>
+    <string name="schedules_all_days">Щодня</string>
+    <string name="schedule_delete_title">Видалити розклад</string>
+    <string name="schedule_delete_message">Видалити цей розклад? Цю дію неможливо скасувати.</string>
+
+    <!-- History -->
+    <string name="history_title">Історія годування</string>
+    <string name="history_empty">Подій не знайдено.</string>
+    <string name="history_type_all">Всі</string>
+    <string name="history_type_auto">Автоматичне</string>
+    <string name="history_type_manual">Ручне</string>
+    <string name="history_status_all">Всі</string>
+    <string name="history_status_success">Успішні</string>
+    <string name="history_status_failed">Невдалі</string>
+
+    <!-- Statistics -->
+    <string name="statistics_title">Статистика</string>
+    <string name="statistics_period_week">Тиждень</string>
+    <string name="statistics_period_month">Місяць</string>
+    <string name="statistics_period_year">Рік</string>
+    <string name="statistics_total_feedings">Всього годувань</string>
+    <string name="statistics_total_food">Всього їжі (г)</string>
+    <string name="statistics_avg_portion">Середня порція (г)</string>
+    <string name="statistics_success_rate">Успішність</string>
+    <string name="statistics_auto_feedings">Автоматичні</string>
+    <string name="statistics_manual_feedings">Ручні</string>
+
+    <!-- Pets -->
+    <string name="pets_title">Тварини</string>
+    <string name="pets_add">Додати тварину</string>
+    <string name="pets_empty">Тварин ще немає.\nДодайте першого улюбленця!</string>
+    <string name="pets_search">Пошук тварин…</string>
+    <string name="pet_name">Ім\'я</string>
+    <string name="pet_species">Вид</string>
+    <string name="pet_weight">Вага (кг)</string>
+    <string name="pet_species_dog">Собака</string>
+    <string name="pet_species_cat">Кіт</string>
+    <string name="pet_species_bird">Птах</string>
+    <string name="pet_species_other">Інше</string>
+    <string name="pet_delete_title">Видалити тварину</string>
+    <string name="pet_delete_message">Видалити %s? Цю дію неможливо скасувати.</string>
+
+    <!-- Notifications -->
+    <string name="notifications_title">Сповіщення</string>
+    <string name="notifications_empty">Сповіщень немає.</string>
+    <string name="notifications_filter_all">Всі</string>
+    <string name="notifications_filter_unread">Непрочитані</string>
+    <string name="notifications_mark_all_read">Позначити всі прочитаними</string>
+    <string name="notifications_settings_title">Налаштування сповіщень</string>
+    <string name="notifications_setting_feeding_success">Успішне годування</string>
+    <string name="notifications_setting_feeding_failed">Невдале годування</string>
+    <string name="notifications_setting_low_food">Низький рівень їжі</string>
+    <string name="notifications_setting_device_status">Статус пристрою</string>
+    <string name="notifications_settings_saved">Налаштування збережено.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Профіль</string>
+    <string name="profile_edit">Редагувати профіль</string>
+    <string name="profile_change_password">Змінити пароль</string>
+    <string name="profile_logout">Вийти</string>
+    <string name="profile_logout_confirm">Ви впевнені, що хочете вийти?</string>
+    <string name="profile_app_settings">Налаштування додатку</string>
+    <string name="profile_dark_theme">Темна тема</string>
+    <string name="profile_language">Мова</string>
+    <string name="profile_current_password">Поточний пароль</string>
+    <string name="profile_new_password">Новий пароль</string>
+    <string name="profile_password_changed">Пароль успішно змінено.</string>
+    <string name="profile_saved">Профіль збережено.</string>
+</resources>

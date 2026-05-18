@@ -1,30 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  Adaptive icon foreground: 108x108dp, safe zone is the inner 72x72 centered at (54,54).
+  Paw SVG originally 80x80 viewBox, scaled to fit ~64dp centered → offset by 22dp on each side.
+  Scale factor: 64/80 = 0.8 → multiply all coords by 0.8, then shift by +22
+-->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="85.84757"
-                android:endY="92.4963"
-                android:startX="42.9492"
-                android:startY="49.59793"
-                android:type="linear">
-                <item
-                    android:color="#44000000"
-                    android:offset="0.0" />
-                <item
-                    android:color="#00000000"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
+
+    <!-- Toe 1: rotate(-28) around (37.2, 46) — ellipse cx=19*0.8+22=37.2, cy=30*0.8+22=46, rx=5.6, ry=6.8 -->
+    <group
+        android:pivotX="37.2"
+        android:pivotY="46"
+        android:rotation="-28">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M31.6,39.2 a5.6,6.8 0 1,0 11.2,0 a5.6,6.8 0 1,0 -11.2,0z" />
+    </group>
+
+    <!-- Toe 2: rotate(-8) around (48.4, 37.2) — cx=33*0.8+22=48.4, cy=19*0.8+22=37.2 -->
+    <group
+        android:pivotX="48.4"
+        android:pivotY="37.2"
+        android:rotation="-8">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M42.8,30.4 a5.6,6.8 0 1,0 11.2,0 a5.6,6.8 0 1,0 -11.2,0z" />
+    </group>
+
+    <!-- Toe 3: rotate(8) around (60.4, 37.2) — cx=48*0.8+22=60.4, cy=19*0.8+22=37.2 -->
+    <group
+        android:pivotX="60.4"
+        android:pivotY="37.2"
+        android:rotation="8">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M54.8,30.4 a5.6,6.8 0 1,0 11.2,0 a5.6,6.8 0 1,0 -11.2,0z" />
+    </group>
+
+    <!-- Toe 4: rotate(28) around (71.6, 46) — cx=62*0.8+22=71.6, cy=30*0.8+22=46 -->
+    <group
+        android:pivotX="71.6"
+        android:pivotY="46"
+        android:rotation="28">
+        <path
+            android:fillColor="#FFFFFFFF"
+            android:pathData="M66,39.2 a5.6,6.8 0 1,0 11.2,0 a5.6,6.8 0 1,0 -11.2,0z" />
+    </group>
+
+    <!-- Main palm pad: M14 51 C14 40 26 36 40 36 C54 36 66 40 66 51 C66 62 55 72 40 72 C25 72 14 62 14 51
+         scaled *0.8 + 22:  M33.2 62.8 C33.2 54 42.8 50.8 54 50.8 C65.2 50.8 74.8 54 74.8 62.8 C74.8 71.6 66 79.6 54 79.6 C42 79.6 33.2 71.6 33.2 62.8 -->
     <path
-        android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
+        android:fillColor="#EDFFFFFF"
+        android:pathData="M33.2,62.8 C33.2,54 42.8,50.8 54,50.8 C65.2,50.8 74.8,54 74.8,62.8 C74.8,71.6 66,79.6 54,79.6 C42,79.6 33.2,71.6 33.2,62.8 Z" />
+
+    <!-- Wifi arc 1: M35 54 Q40 49.5 45 54  → *0.8+22: M50,65.2 Q54,61.6 58,65.2 -->
+    <path
+        android:strokeColor="#8B4513"
+        android:strokeWidth="2.1"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M50,65.2 Q54,61.6 58,65.2" />
+
+    <!-- Wifi arc 2: M29.5 60 Q40 52 50.5 60 → *0.8+22: M45.6,70 Q54,63.6 62.4,70 -->
+    <path
+        android:strokeColor="#8B4513"
+        android:strokeWidth="1.9"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M45.6,70 Q54,63.6 62.4,70"
+        android:strokeAlpha="0.55" />
+
+    <!-- Wifi arc 3: M24 66 Q40 55 56 66 → *0.8+22: M41.2,74.8 Q54,66 66.8,74.8 -->
+    <path
+        android:strokeColor="#8B4513"
+        android:strokeWidth="1.7"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M41.2,74.8 Q54,66 66.8,74.8"
+        android:strokeAlpha="0.28" />
+
+    <!-- Center dot: cx=40*0.8+22=54, cy=50*0.8+22=62, r=2.8*0.8=2.24 -->
+    <path
+        android:fillColor="#8B4513"
+        android:pathData="M54,59.76 a2.24,2.24 0 1,0 0.001,0 Z" />
+
 </vector>

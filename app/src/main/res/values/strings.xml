@@ -1,3 +1,201 @@
 <resources>
     <string name="app_name">FeedlyPet</string>
+
+    <!-- Notification Channels -->
+    <string name="channel_feeding_name">Feeding</string>
+    <string name="channel_device_status_name">Device Status</string>
+    <string name="channel_food_level_name">Food Level</string>
+
+    <!-- Common -->
+    <string name="common_ok">OK</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_confirm">Confirm</string>
+    <string name="common_retry">Retry</string>
+    <string name="common_save">Save</string>
+    <string name="common_delete">Delete</string>
+    <string name="common_edit">Edit</string>
+    <string name="common_copy">Copy</string>
+    <string name="common_loading">Loading…</string>
+    <string name="common_error_network">Network error. Please try again.</string>
+    <string name="common_error_unknown">Something went wrong. Please try again.</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_pets">Pets</string>
+    <string name="nav_devices">Devices</string>
+    <string name="nav_alerts">Alerts</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next →</string>
+    <string name="onboarding_login">Log In</string>
+    <string name="onboarding_register">Create Account</string>
+    <string name="onboarding_title_1">Welcome to FeedlyPet!</string>
+    <string name="onboarding_subtitle_1">Smart feeder for your beloved pet</string>
+    <string name="onboarding_title_2">Feeding Schedule</string>
+    <string name="onboarding_subtitle_2">Set time and portion sizes — the device does the rest</string>
+    <string name="onboarding_title_3">Monitor Online</string>
+    <string name="onboarding_subtitle_3">Track food levels in real time</string>
+    <string name="onboarding_title_4">Always in the Loop</string>
+    <string name="onboarding_subtitle_4">Get notified about every feeding and low food level</string>
+
+    <!-- Auth -->
+    <string name="auth_email">Email</string>
+    <string name="auth_password">Password</string>
+    <string name="auth_confirm_password">Confirm Password</string>
+    <string name="auth_name">Name</string>
+    <string name="auth_timezone">Timezone</string>
+    <string name="auth_login_title">Log In</string>
+    <string name="auth_login_button">Log In</string>
+    <string name="auth_forgot_password">Forgot password?</string>
+    <string name="auth_no_account">Don\'t have an account? Sign up</string>
+    <string name="auth_register_title">Create Account</string>
+    <string name="auth_register_button">Create Account</string>
+    <string name="auth_already_have_account">Already have an account? Log in</string>
+    <string name="auth_forgot_password_title">Forgot Password</string>
+    <string name="auth_forgot_password_button">Send Instructions</string>
+    <string name="auth_forgot_password_sent">If the account exists, we sent you the instructions.</string>
+    <string name="auth_back_to_login">Back to Log In</string>
+    <string name="auth_verify_email_title">Verify Email</string>
+    <string name="auth_verify_email_message">We sent a verification link to your email. Please check your inbox.</string>
+    <string name="auth_resend_code">Resend Email</string>
+    <string name="auth_resend_cooldown">Resend in %ds</string>
+    <string name="auth_reset_password_title">Reset Password</string>
+    <string name="auth_reset_password_button">Reset Password</string>
+    <string name="auth_reset_password_success">Password changed successfully.</string>
+    <string name="auth_new_password">New Password</string>
+    <string name="auth_confirm_new_password">Confirm New Password</string>
+    <string name="auth_error_email_required">Email is required</string>
+    <string name="auth_error_email_invalid">Enter a valid email</string>
+    <string name="auth_error_password_required">Password is required</string>
+    <string name="auth_error_password_min">Password must be at least 8 characters</string>
+    <string name="auth_error_name_required">Name is required</string>
+    <string name="auth_error_name_min">Name must be at least 2 characters</string>
+    <string name="auth_error_passwords_mismatch">Passwords do not match</string>
+    <string name="auth_error_invalid_credentials">Invalid email or password</string>
+    <string name="auth_error_verify_email">Please verify your email first</string>
+    <string name="auth_error_email_taken">An account with this email already exists</string>
+
+    <!-- Home -->
+    <string name="home_title">Home</string>
+    <string name="home_pets_count">Pets</string>
+    <string name="home_devices_status">Devices</string>
+    <string name="home_unread_notifications">Unread</string>
+    <string name="home_devices_section">Your Devices</string>
+    <string name="home_recent_events">Recent Events</string>
+    <string name="home_this_week">This week</string>
+
+    <!-- Stats (dashboard) -->
+    <string name="stats_feedings">feedings</string>
+    <string name="stats_food_served">food served</string>
+    <string name="stats_avg_portion">avg portion</string>
+    <string name="stats_success_rate">success rate</string>
+
+    <!-- Devices -->
+    <string name="devices_title">Devices</string>
+    <string name="devices_status_online">Online</string>
+    <string name="devices_status_offline">Offline</string>
+    <string name="devices_add">Add Device</string>
+    <string name="devices_empty">No devices yet.\nAdd your first feeder!</string>
+    <string name="devices_location">Location: %s</string>
+    <string name="devices_last_seen">Last seen: %s</string>
+    <string name="devices_no_pet">No pet assigned</string>
+    <string name="device_detail_title">Device Details</string>
+    <string name="device_feed_now">Feed Now</string>
+    <string name="device_feed_command_sent">Feeding command sent!</string>
+    <string name="device_portion_size">Portion: %dg</string>
+    <string name="device_food_level">Food Level</string>
+    <string name="device_register_title">Register Device</string>
+    <string name="device_hardware_id">Hardware Device ID</string>
+    <string name="device_name">Device Name</string>
+    <string name="device_location_hint">Location (optional)</string>
+    <string name="device_assign_pet">Assign Pet (optional)</string>
+    <string name="device_register_success">Device registered!</string>
+    <string name="device_mqtt_password">MQTT Password: %s</string>
+    <string name="device_mqtt_warning">Save this password — it won\'t be shown again</string>
+    <string name="device_copy_password">Copy Password</string>
+    <string name="device_regen_password_title">Regenerate Password</string>
+    <string name="device_regen_password_message">The old password will stop working. Continue?</string>
+    <string name="device_delete_title">Delete Device</string>
+    <string name="device_delete_message">Delete %s? This action cannot be undone.</string>
+    <string name="device_view_schedules">Manage Schedules</string>
+    <string name="device_view_history">View All Events</string>
+    <string name="device_view_statistics">Statistics</string>
+
+    <!-- Schedules -->
+    <string name="schedules_title">Schedules</string>
+    <string name="schedules_add">Add Schedule</string>
+    <string name="schedules_empty">No schedules yet.</string>
+    <string name="schedules_filter_all">All</string>
+    <string name="schedules_filter_active">Active</string>
+    <string name="schedules_filter_inactive">Inactive</string>
+    <string name="schedules_portion">%dg</string>
+    <string name="schedules_all_days">Every Day</string>
+    <string name="schedule_delete_title">Delete Schedule</string>
+    <string name="schedule_delete_message">Delete this schedule? This action cannot be undone.</string>
+
+    <!-- History -->
+    <string name="history_title">Feeding History</string>
+    <string name="history_empty">No events found.</string>
+    <string name="history_type_all">All</string>
+    <string name="history_type_auto">Automatic</string>
+    <string name="history_type_manual">Manual</string>
+    <string name="history_status_all">All</string>
+    <string name="history_status_success">Successful</string>
+    <string name="history_status_failed">Failed</string>
+
+    <!-- Statistics -->
+    <string name="statistics_title">Statistics</string>
+    <string name="statistics_period_week">Week</string>
+    <string name="statistics_period_month">Month</string>
+    <string name="statistics_period_year">Year</string>
+    <string name="statistics_total_feedings">Total Feedings</string>
+    <string name="statistics_total_food">Total Food (g)</string>
+    <string name="statistics_avg_portion">Avg Portion (g)</string>
+    <string name="statistics_success_rate">Success Rate</string>
+    <string name="statistics_auto_feedings">Automatic</string>
+    <string name="statistics_manual_feedings">Manual</string>
+
+    <!-- Pets -->
+    <string name="pets_title">Pets</string>
+    <string name="pets_add">Add Pet</string>
+    <string name="pets_empty">No pets yet.\nAdd your first pet!</string>
+    <string name="pets_search">Search pets…</string>
+    <string name="pet_name">Name</string>
+    <string name="pet_species">Species</string>
+    <string name="pet_weight">Weight (kg)</string>
+    <string name="pet_species_dog">Dog</string>
+    <string name="pet_species_cat">Cat</string>
+    <string name="pet_species_bird">Bird</string>
+    <string name="pet_species_other">Other</string>
+    <string name="pet_delete_title">Delete Pet</string>
+    <string name="pet_delete_message">Delete %s? This action cannot be undone.</string>
+
+    <!-- Notifications -->
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_empty">No notifications.</string>
+    <string name="notifications_filter_all">All</string>
+    <string name="notifications_filter_unread">Unread</string>
+    <string name="notifications_mark_all_read">Mark All as Read</string>
+    <string name="notifications_settings_title">Notification Settings</string>
+    <string name="notifications_setting_feeding_success">Successful Feeding</string>
+    <string name="notifications_setting_feeding_failed">Failed Feeding</string>
+    <string name="notifications_setting_low_food">Low Food Level</string>
+    <string name="notifications_setting_device_status">Device Status</string>
+    <string name="notifications_settings_saved">Settings saved.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_edit">Edit Profile</string>
+    <string name="profile_change_password">Change Password</string>
+    <string name="profile_logout">Log Out</string>
+    <string name="profile_logout_confirm">Are you sure you want to log out?</string>
+    <string name="profile_app_settings">App Settings</string>
+    <string name="profile_dark_theme">Dark Theme</string>
+    <string name="profile_language">Language</string>
+    <string name="profile_current_password">Current Password</string>
+    <string name="profile_new_password">New Password</string>
+    <string name="profile_password_changed">Password changed successfully.</string>
+    <string name="profile_saved">Profile saved.</string>
 </resources>
