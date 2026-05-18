@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "327098045923",
+    "project_id": "feedlypet-eb044",
+    "storage_bucket": "feedlypet-eb044.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327098045923:android:ad3185e77da332c730bcd6",
+        "android_client_info": {
+          "package_name": "com.example.feedlypet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdlmapj_LREMPHO3wC9etOAzEuvoXukio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
