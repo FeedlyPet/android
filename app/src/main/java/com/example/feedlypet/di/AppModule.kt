@@ -22,9 +22,29 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+// Separate qualifier-annotated client used only for auth (refresh) calls.
+// It has NO authenticator and NO auth interceptor to avoid OkHttp thread-pool
+// deadlocks when TokenAuthenticator calls runBlocking inside an OkHttp callback.
+
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+
+    @Provides
+    @Singleton
+    @AuthOkHttpClient
+    fun provideAuthOkHttpClient(): OkHttpClient {
+        val builder = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(
+                HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
+            )
+        }
+        return builder.build()
+    }
 
     @Provides
     @Singleton
@@ -57,8 +77,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthApiService(retrofit: Retrofit): AuthApiService =
-        retrofit.create(AuthApiService::class.java)
+    fun provideAuthApiService(@AuthOkHttpClient okHttpClient: OkHttpClient): AuthApiService =
+        Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(AuthApiService::class.java)
 
     @Provides
     @Singleton

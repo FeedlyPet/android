@@ -72,6 +72,18 @@ class MainActivity : AppCompatActivity() {
             val systemDark = isSystemInDarkTheme()
             FeedlyPetTheme(darkTheme = userTheme ?: systemDark) {
                 val navController = rememberNavController()
+
+                // Force-logout: navigate to onboarding when refresh token expires
+                val isForceLoggedOut by tokenManager.isForceLoggedOut.collectAsStateWithLifecycle()
+                if (isForceLoggedOut) {
+                    androidx.compose.runtime.LaunchedEffect(Unit) {
+                        tokenManager.resetForceLogout()
+                        navController.navigate(GRAPH_ONBOARDING) {
+                            popUpTo(0) { inclusive = true }
+                        }
+                    }
+                }
+
                 NavGraph(
                     navController = navController,
                     startDestination = startDestination,

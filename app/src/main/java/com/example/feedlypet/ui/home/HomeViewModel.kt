@@ -40,8 +40,9 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
 
+            // Fetch all devices (not just 5) for accurate online/offline counts
             val petsDeferred = async { petsRepository.getPets(page = 1, limit = 1) }
-            val devicesDeferred = async { devicesRepository.getDevices(page = 1, limit = 5) }
+            val devicesDeferred = async { devicesRepository.getDevices(page = 1, limit = 100) }
             val notificationsDeferred = async { notificationsRepository.getNotifications(page = 1, limit = 1, unreadOnly = true) }
 
             val petsResult = petsDeferred.await()
@@ -54,31 +55,37 @@ class HomeViewModel @Inject constructor(
             val devicesOffline = devices.count { !it.isOnline }
             val unreadNotifications = if (notificationsResult is AuthResult.Success) notificationsResult.data.meta.total else 0
 
-            // Fetch recent events + week stats from first device (best-effort)
-            val recentEvents = if (devices.isNotEmpty()) {
-                val eventsResult = historyRepository.getEvents(deviceId = devices.first().id, page = 1, limit = 5)
-                if (eventsResult is AuthResult.Success) eventsResult.data.data else emptyList()
-            } else {
-                emptyList()
+            // Fetch food levels, recent events, week stats in parallel
+            val foodLevels: Map<String, Int>
+            val recentEvents: List<com.example.feedlypet.data.network.model.FeedingEventDto>
+            val weekStats: com.example.feedlypet.data.network.model.StatisticsDto?
+
+            coroutineScope {
+                val foodDeferred = async {
+                    devices.map { device ->
+                        async {
+                            val fr = devicesRepository.getFoodLevel(device.id)
+                            if (fr is AuthResult.Success) device.id to fr.data.foodLevel else null
+                        }
+                    }.mapNotNull { it.await() }.toMap()
+                }
+                val eventsDeferred = async {
+                    if (devices.isNotEmpty()) {
+                        val r = historyRepository.getEvents(deviceId = devices.first().id, page = 1, limit = 5)
+                        if (r is AuthResult.Success) r.data.data else emptyList()
+                    } else emptyList()
+                }
+                val statsDeferred = async {
+                    if (devices.isNotEmpty()) {
+                        val r = statisticsRepository.getStatistics(devices.first().id, "week")
+                        if (r is AuthResult.Success) r.data else null
+                    } else null
+                }
+                foodLevels = foodDeferred.await()
+                recentEvents = eventsDeferred.await()
+                weekStats = statsDeferred.await()
             }
 
-            val weekStats = if (devices.isNotEmpty()) {
-                val statsResult = statisticsRepository.getStatistics(devices.first().id, "week")
-                if (statsResult is AuthResult.Success) statsResult.data else null
-            } else {
-                null
-            }
-
-            val foodLevels = coroutineScope {
-                devices.map { device ->
-                    async {
-                        val fr = devicesRepository.getFoodLevel(device.id)
-                        if (fr is AuthResult.Success) device.id to fr.data.foodLevel else null
-                    }
-                }.mapNotNull { it.await() }.toMap()
-            }
-
-            val hasError = devicesResult !is AuthResult.Success
             _uiState.update {
                 it.copy(
                     isLoading = false,
@@ -90,7 +97,7 @@ class HomeViewModel @Inject constructor(
                     foodLevels = foodLevels,
                     recentEvents = recentEvents,
                     weekStats = weekStats,
-                    error = if (hasError) UiText.Res(R.string.common_error_network) else null
+                    error = if (devicesResult !is AuthResult.Success) UiText.Res(R.string.common_error_network) else null
                 )
             }
         }

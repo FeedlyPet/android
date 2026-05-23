@@ -4,11 +4,17 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TokenManager @Inject constructor(@ApplicationContext context: Context) {
+
+    private val _isForceLoggedOut = MutableStateFlow(false)
+    val isForceLoggedOut: StateFlow<Boolean> = _isForceLoggedOut.asStateFlow()
 
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -57,6 +63,16 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
         prefs.edit().clear().apply()
         if (theme != null) saveTheme(theme)
         saveLanguage(language)
+    }
+
+    /** Called by TokenAuthenticator when refresh fails — clears tokens and signals forced logout. */
+    fun clearTokensAndForceLogout() {
+        clearTokens()
+        _isForceLoggedOut.value = true
+    }
+
+    fun resetForceLogout() {
+        _isForceLoggedOut.value = false
     }
 
     fun saveTheme(isDark: Boolean) {

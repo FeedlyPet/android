@@ -2,7 +2,6 @@ package com.example.feedlypet.data.network
 
 import com.example.feedlypet.data.local.TokenManager
 import com.example.feedlypet.data.network.model.RefreshTokenRequest
-import dagger.Lazy
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -14,7 +13,7 @@ import javax.inject.Singleton
 @Singleton
 class TokenAuthenticator @Inject constructor(
     private val tokenManager: TokenManager,
-    private val authApiService: Lazy<AuthApiService>
+    private val authApiService: AuthApiService
 ) : Authenticator {
 
     @Synchronized
@@ -22,7 +21,7 @@ class TokenAuthenticator @Inject constructor(
         if (responseCount(response) >= 2) return null
 
         val refreshToken = tokenManager.getRefreshToken() ?: run {
-            tokenManager.clearTokens()
+            tokenManager.clearTokensAndForceLogout()
             return null
         }
 
@@ -36,7 +35,7 @@ class TokenAuthenticator @Inject constructor(
 
         val newTokens = runBlocking {
             try {
-                authApiService.get().refresh(RefreshTokenRequest(refreshToken))
+                authApiService.refresh(RefreshTokenRequest(refreshToken))
             } catch (e: Exception) {
                 null
             }
@@ -52,7 +51,7 @@ class TokenAuthenticator @Inject constructor(
                 .header("Authorization", "Bearer ${body.accessToken}")
                 .build()
         } else {
-            tokenManager.clearTokens()
+            tokenManager.clearTokensAndForceLogout()
             null
         }
     }
