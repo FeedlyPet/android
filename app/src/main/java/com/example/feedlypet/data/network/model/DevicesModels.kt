@@ -46,6 +46,6 @@ data class ManualFeedResponse(val success: Boolean, val message: String)
 
 data class FoodLevelDto(
     val deviceId: String,
-    val foodLevel: Int,
+    @com.google.gson.annotations.SerializedName("level") val foodLevel: Int,
     val timestamp: String
 )

@@ -3,6 +3,7 @@ package com.example.feedlypet.ui.pets
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -19,12 +21,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -33,7 +37,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -190,19 +193,30 @@ private fun PetFormSheet(pet: PetDto?, onSave: (String, String, Double) -> Unit,
             OutlinedTextField(value = name, onValueChange = { name = it },
                 label = { Text(stringResource(R.string.pet_name)) }, modifier = Modifier.fillMaxWidth())
 
-            ExposedDropdownMenuBox(expanded = speciesExpanded, onExpandedChange = { speciesExpanded = it }) {
+            Box(modifier = Modifier.fillMaxWidth().wrapContentSize(Alignment.TopStart)) {
                 OutlinedTextField(
                     value = selectedSpecies,
                     onValueChange = {},
                     readOnly = true,
                     label = { Text(stringResource(R.string.pet_species)) },
-                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = speciesExpanded) },
-                    modifier = Modifier.fillMaxWidth().menuAnchor()
+                    trailingIcon = {
+                        Icon(
+                            imageVector = if (speciesExpanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                            contentDescription = null
+                        )
+                    },
+                    modifier = Modifier.fillMaxWidth().clickable { speciesExpanded = true }
                 )
-                ExposedDropdownMenu(expanded = speciesExpanded, onDismissRequest = { speciesExpanded = false }) {
+                DropdownMenu(
+                    expanded = speciesExpanded,
+                    onDismissRequest = { speciesExpanded = false },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     species.forEach { s ->
-                        DropdownMenuItem(text = { Text("${speciesEmoji(s)} $s") },
-                            onClick = { selectedSpecies = s; speciesExpanded = false })
+                        DropdownMenuItem(
+                            text = { Text("${speciesEmoji(s)} $s") },
+                            onClick = { selectedSpecies = s; speciesExpanded = false }
+                        )
                     }
                 }
             }

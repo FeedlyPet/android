@@ -100,6 +100,7 @@
     <string name="devices_empty">Пристроїв ще немає.\nДодайте першу годівницю!</string>
     <string name="devices_location">Місце: %s</string>
     <string name="devices_last_seen">Останній зв\'язок: %s</string>
+    <string name="devices_details">Деталі</string>
     <string name="devices_no_pet">Тварину не прив\'язано</string>
     <string name="device_detail_title">Деталі пристрою</string>
     <string name="device_feed_now">Годувати зараз</string>
@@ -196,6 +197,14 @@
     <string name="profile_language">Мова</string>
     <string name="profile_current_password">Поточний пароль</string>
     <string name="profile_new_password">Новий пароль</string>
+    <string name="profile_confirm_new_password">Підтвердження нового пароля</string>
     <string name="profile_password_changed">Пароль успішно змінено.</string>
     <string name="profile_saved">Профіль збережено.</string>
+
+    <!-- Statistics comparison -->
+    <string name="statistics_vs_previous">%s порівняно з попереднім періодом</string>
+
+    <!-- History event type labels -->
+    <string name="history_type_manual_label">ручне</string>
+    <string name="history_type_auto_label">автоматичне</string>
 </resources>

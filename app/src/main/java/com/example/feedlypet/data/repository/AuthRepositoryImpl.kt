@@ -26,7 +26,7 @@ class AuthRepositoryImpl @Inject constructor(
             val result = response.bodyOrError<AuthResponse>()
             if (result is AuthResult.Success) {
                 tokenManager.saveTokens(result.data.accessToken, result.data.refreshToken)
-                tokenManager.saveUser(result.data.user.id, result.data.user.email, result.data.user.name)
+                tokenManager.saveUser(result.data.user.id, result.data.user.email, result.data.user.name, result.data.user.timezone)
             }
             result
         }
@@ -37,7 +37,7 @@ class AuthRepositoryImpl @Inject constructor(
             val result = response.bodyOrError<AuthResponse>()
             if (result is AuthResult.Success) {
                 tokenManager.saveTokens(result.data.accessToken, result.data.refreshToken)
-                tokenManager.saveUser(result.data.user.id, result.data.user.email, result.data.user.name)
+                tokenManager.saveUser(result.data.user.id, result.data.user.email, result.data.user.name, result.data.user.timezone)
             }
             result
         }

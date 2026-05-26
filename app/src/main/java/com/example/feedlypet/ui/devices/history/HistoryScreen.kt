@@ -55,8 +55,8 @@ fun HistoryScreen(
         Column(Modifier.fillMaxSize().padding(padding)) {
             LazyRow(contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 item { FilterChip(selected = state.typeFilter == null, onClick = { viewModel.setTypeFilter(null) }, label = { Text(stringResource(R.string.history_type_all)) }) }
-                item { FilterChip(selected = state.typeFilter == "AUTOMATIC", onClick = { viewModel.setTypeFilter("AUTOMATIC") }, label = { Text(stringResource(R.string.history_type_auto)) }) }
-                item { FilterChip(selected = state.typeFilter == "MANUAL", onClick = { viewModel.setTypeFilter("MANUAL") }, label = { Text(stringResource(R.string.history_type_manual)) }) }
+                item { FilterChip(selected = state.typeFilter == "automatic", onClick = { viewModel.setTypeFilter("automatic") }, label = { Text(stringResource(R.string.history_type_auto)) }) }
+                item { FilterChip(selected = state.typeFilter == "manual", onClick = { viewModel.setTypeFilter("manual") }, label = { Text(stringResource(R.string.history_type_manual)) }) }
                 item { FilterChip(selected = state.successFilter == true, onClick = { viewModel.setSuccessFilter(if (state.successFilter == true) null else true) }, label = { Text(stringResource(R.string.history_status_success)) }) }
                 item { FilterChip(selected = state.successFilter == false, onClick = { viewModel.setSuccessFilter(if (state.successFilter == false) null else false) }, label = { Text(stringResource(R.string.history_status_failed)) }) }
             }
@@ -80,7 +80,14 @@ private fun EventCard(event: FeedingEventDto) {
             Column {
                 Text(formatTimestamp(event.timestamp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 Text("${event.portionSize}g", style = MaterialTheme.typography.titleMedium)
-                Text(event.type, style = MaterialTheme.typography.bodySmall)
+                Text(
+                    when (event.type.lowercase()) {
+                        "manual" -> stringResource(R.string.history_type_manual_label)
+                        "automatic" -> stringResource(R.string.history_type_auto_label)
+                        else -> event.type
+                    },
+                    style = MaterialTheme.typography.bodySmall
+                )
                 event.errorMessage?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.error) }
             }
             Text(if (event.success) "✅" else "❌", style = MaterialTheme.typography.headlineSmall)

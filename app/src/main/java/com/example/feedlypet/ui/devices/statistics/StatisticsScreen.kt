@@ -1,6 +1,7 @@
 package com.example.feedlypet.ui.devices.statistics
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -67,19 +68,19 @@ fun StatisticsScreen(
 private fun StatisticsContent(stats: StatisticsDto) {
     LazyColumn(contentPadding = PaddingValues(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         item {
-            androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
-                columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                userScrollEnabled = false
-            ) {
-                item { StatCard(stringResource(R.string.statistics_total_feedings), stats.totalFeedings.toString()) }
-                item { StatCard(stringResource(R.string.statistics_total_food), "${stats.totalFood}g") }
-                item { StatCard(stringResource(R.string.statistics_avg_portion), "${stats.avgPortion.toInt()}g") }
-                item { StatCard(stringResource(R.string.statistics_success_rate), "${(stats.successRate * 100).toInt()}%") }
-                item { StatCard(stringResource(R.string.statistics_auto_feedings), stats.autoFeedings.toString()) }
-                item { StatCard(stringResource(R.string.statistics_manual_feedings), stats.manualFeedings.toString()) }
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(modifier = Modifier.weight(1f)) { StatCard(stringResource(R.string.statistics_total_feedings), stats.totalFeedings.toString()) }
+                    Box(modifier = Modifier.weight(1f)) { StatCard(stringResource(R.string.statistics_total_food), "${stats.totalFood}g") }
+                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(modifier = Modifier.weight(1f)) { StatCard(stringResource(R.string.statistics_avg_portion), "${stats.avgPortion.toInt()}g") }
+                    Box(modifier = Modifier.weight(1f)) { StatCard(stringResource(R.string.statistics_success_rate), "${(stats.successRate * 100).toInt()}%") }
+                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(modifier = Modifier.weight(1f)) { StatCard(stringResource(R.string.statistics_auto_feedings), stats.autoFeedings.toString()) }
+                    Box(modifier = Modifier.weight(1f)) { StatCard(stringResource(R.string.statistics_manual_feedings), stats.manualFeedings.toString()) }
+                }
             }
         }
 
@@ -87,7 +88,7 @@ private fun StatisticsContent(stats: StatisticsDto) {
             item {
                 val color = if (change >= 0) androidx.compose.ui.graphics.Color(0xFF4CAF50) else MaterialTheme.colorScheme.error
                 val sign = if (change >= 0) "+" else ""
-                Text("$sign${change.toInt()}% vs previous period", color = color, style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(R.string.statistics_vs_previous, "$sign${change.toInt()}%"), color = color, style = MaterialTheme.typography.bodyMedium)
             }
         }
     }

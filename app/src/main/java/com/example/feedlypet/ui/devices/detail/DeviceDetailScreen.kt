@@ -73,6 +73,10 @@ fun DeviceDetailScreen(
         }
     }
 
+    LaunchedEffect(state.deleted) {
+        if (state.deleted) onBack()
+    }
+
     Scaffold(
         snackbarHost = { AppSnackbarHost(snackbarHostState) },
         topBar = {
@@ -83,6 +87,10 @@ fun DeviceDetailScreen(
                     IconButton(onClick = { menuExpanded = true }) { Icon(Icons.Default.MoreVert, contentDescription = null) }
                     DropdownMenu(expanded = menuExpanded, onDismissRequest = { menuExpanded = false }) {
                         DropdownMenuItem(text = { Text(stringResource(R.string.device_regen_password_title)) }, onClick = { menuExpanded = false; viewModel.showRegenDialog() })
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.device_delete_title), color = MaterialTheme.colorScheme.error) },
+                            onClick = { menuExpanded = false; viewModel.showDeleteDialog() }
+                        )
                     }
                 }
             )
@@ -175,6 +183,17 @@ fun DeviceDetailScreen(
             },
             confirmButton = { Button(onClick = { viewModel.feed(portion.toInt()) }) { Text(stringResource(R.string.common_confirm)) } },
             dismissButton = { TextButton(onClick = { viewModel.hideFeedDialog() }) { Text(stringResource(R.string.common_cancel)) } }
+        )
+    }
+
+    if (state.showDeleteDialog) {
+        ConfirmDialog(
+            title = stringResource(R.string.device_delete_title),
+            message = stringResource(R.string.device_delete_message, state.device?.name ?: ""),
+            confirmLabel = stringResource(R.string.common_delete),
+            destructive = true,
+            onConfirm = { viewModel.deleteDevice() },
+            onDismiss = { viewModel.hideDeleteDialog() }
         )
     }
 

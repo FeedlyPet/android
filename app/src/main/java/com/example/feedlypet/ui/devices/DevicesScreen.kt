@@ -21,7 +21,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
@@ -32,7 +31,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -46,7 +44,9 @@ import com.example.feedlypet.ui.components.EmptyScreen
 import com.example.feedlypet.ui.components.ErrorScreen
 import com.example.feedlypet.ui.components.FoodLevelBar
 import com.example.feedlypet.ui.components.LoadingScreen
+import com.example.feedlypet.ui.components.StatusChip
 import com.example.feedlypet.ui.components.formatTimestamp
+import com.example.feedlypet.ui.components.formatUtcTimestamp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,7 +76,7 @@ fun DevicesScreen(
                 ) {
                     Text(
                         stringResource(R.string.nav_devices),
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     )
                     Button(
@@ -144,67 +144,44 @@ fun DevicesScreen(
 
 @Composable
 private fun DeviceCard(device: DeviceDto, foodLevel: Int?, onClick: () -> Unit, onFeed: () -> Unit) {
-    val isOnline = device.isOnline
-    val onlineColor = Color(0xFF4CAF50)
-    val offlineColor = MaterialTheme.colorScheme.outline
-
     Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            // Online badge + Details link
+        Column(modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Surface(
-                    shape = RoundedCornerShape(50),
-                    color = if (isOnline) onlineColor.copy(alpha = 0.15f) else offlineColor.copy(alpha = 0.15f)
-                ) {
-                    Text(
-                        if (isOnline) "● Online" else "● Offline",
-                        color = if (isOnline) onlineColor else offlineColor,
-                        style = MaterialTheme.typography.labelSmall,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
-                    )
-                }
-                TextButton(onClick = onClick) {
-                    Text(
-                        "Details",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null,
-                        modifier = Modifier.padding(start = 2.dp),
-                        tint = MaterialTheme.colorScheme.primary)
-                }
-            }
-
-            // Device name
-            Text(device.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
-
-            // Location
-            device.location?.let {
+                Text(device.name, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Text("📍", style = MaterialTheme.typography.bodySmall)
-                    Text(it, style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    StatusChip(isOnline = device.isOnline)
+                    TextButton(
+                        onClick = onClick,
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 4.dp, vertical = 0.dp)
+                    ) {
+                        Text(stringResource(R.string.devices_details), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.primary)
+                        Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = null, modifier = Modifier.padding(start = 2.dp), tint = MaterialTheme.colorScheme.primary)
+                    }
                 }
             }
 
-            // Food level
-            FoodLevelBar(level = foodLevel ?: 0)
-
-            // Last seen
-            device.lastSeen?.let {
-                Text(
-                    stringResource(R.string.devices_last_seen, formatTimestamp(it)),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary
-                )
+            if (foodLevel != null) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(stringResource(R.string.device_food_level), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("$foodLevel%", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                FoodLevelBar(level = foodLevel)
             }
 
-            // Feed now button
-            if (isOnline) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                device.location?.let {
+                    Text("📍 $it", style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                device.lastSeen?.let {
+                    Text(stringResource(R.string.devices_last_seen, formatUtcTimestamp(it)), style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+
+            if (device.isOnline) {
                 Button(onClick = onFeed, modifier = Modifier.fillMaxWidth()) {
                     Text(stringResource(R.string.device_feed_now))
                 }

@@ -3,9 +3,9 @@ package com.example.feedlypet.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -18,6 +18,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -33,6 +35,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
+import androidx.compose.runtime.mutableIntStateOf
 import com.example.feedlypet.ui.AppSettingsViewModel
 import com.example.feedlypet.ui.auth.EmailVerificationScreen
 import com.example.feedlypet.ui.auth.ForgotPasswordScreen
@@ -46,7 +49,6 @@ import com.example.feedlypet.ui.devices.history.HistoryScreen
 import com.example.feedlypet.ui.devices.schedules.SchedulesScreen
 import com.example.feedlypet.ui.devices.statistics.StatisticsScreen
 import com.example.feedlypet.ui.home.HomeScreen
-import com.example.feedlypet.ui.home.HomeViewModel
 import com.example.feedlypet.ui.notifications.NotificationsScreen
 import com.example.feedlypet.ui.notifications.settings.NotificationSettingsScreen
 import com.example.feedlypet.ui.onboarding.OnboardingScreen
@@ -61,7 +63,7 @@ private data class BottomNavItem(
 
 private val bottomNavItems = listOf(
     BottomNavItem(Screen.Home, R.string.nav_home, Icons.Default.Home),
-    BottomNavItem(Screen.Pets, R.string.nav_pets, Icons.Default.PlayArrow),
+    BottomNavItem(Screen.Pets, R.string.nav_pets, Icons.Default.Favorite),
     BottomNavItem(Screen.Devices, R.string.nav_devices, Icons.Default.Settings),
     BottomNavItem(Screen.Notifications, R.string.nav_alerts, Icons.Default.Notifications),
     BottomNavItem(Screen.Profile, R.string.nav_profile, Icons.Default.Person)
@@ -81,8 +83,7 @@ fun NavGraph(
     startDestination: String,
     settingsViewModel: AppSettingsViewModel
 ) {
-    val homeViewModel: HomeViewModel = hiltViewModel()
-    val homeState by homeViewModel.uiState.collectAsStateWithLifecycle()
+    var unreadCount by remember { mutableIntStateOf(0) }
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -93,7 +94,7 @@ fun NavGraph(
             if (showBottomBar) {
                 BottomNavigationBar(
                     currentRoute = currentRoute,
-                    unreadCount = homeState.unreadNotifications,
+                    unreadCount = unreadCount,
                     onNavigate = { route ->
                         if (currentRoute != route) {
                             navController.navigate(route) {
@@ -233,7 +234,7 @@ fun NavGraph(
             ) {
                 composable(Screen.Home.route) {
                     HomeScreen(
-                        viewModel = homeViewModel,
+                        onUnreadCountChange = { unreadCount = it },
                         onNavigateToNotifications = { navController.navigate(Screen.Notifications.route) }
                     )
                 }
@@ -252,6 +253,7 @@ fun NavGraph(
 
                 composable(Screen.Notifications.route) {
                     NotificationsScreen(
+                        onUnreadCountChange = { unreadCount = it },
                         onNavigateToSettings = { navController.navigate(Screen.NotificationSettings.route) }
                     )
                 }

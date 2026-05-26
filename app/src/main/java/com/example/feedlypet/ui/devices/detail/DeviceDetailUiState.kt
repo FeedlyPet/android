@@ -16,5 +16,7 @@ data class DeviceDetailUiState(
     val feedingSuccess: UiText? = null,
     val showFeedDialog: Boolean = false,
     val showRegenDialog: Boolean = false,
-    val newPassword: String? = null
+    val showDeleteDialog: Boolean = false,
+    val newPassword: String? = null,
+    val deleted: Boolean = false
 )

@@ -35,13 +35,16 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
             .apply()
     }
 
-    fun saveUser(id: String, email: String, name: String) {
+    fun saveUser(id: String, email: String, name: String, timezone: String? = null) {
         prefs.edit()
             .putString(KEY_USER_ID, id)
             .putString(KEY_USER_EMAIL, email)
             .putString(KEY_USER_NAME, name)
+            .apply { if (timezone != null) putString(KEY_TIMEZONE, timezone) }
             .apply()
     }
+
+    fun getTimezone(): String = prefs.getString(KEY_TIMEZONE, null) ?: java.util.TimeZone.getDefault().id
 
     fun getAccessToken(): String? = prefs.getString(KEY_ACCESS_TOKEN, null)
     fun getRefreshToken(): String? = prefs.getString(KEY_REFRESH_TOKEN, null)
@@ -104,5 +107,6 @@ class TokenManager @Inject constructor(@ApplicationContext context: Context) {
         private const val KEY_THEME_DARK = "theme_dark"
         private const val KEY_THEME_USER_SET = "theme_user_set"
         private const val KEY_LANGUAGE = "language"
+        private const val KEY_TIMEZONE = "timezone"
     }
 }

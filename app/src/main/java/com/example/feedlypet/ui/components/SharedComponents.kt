@@ -1,17 +1,18 @@
 package com.example.feedlypet.ui.components
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Snackbar
@@ -33,6 +34,7 @@ import com.example.feedlypet.ui.common.UiText
 import com.example.feedlypet.ui.theme.AmberLevel
 import com.example.feedlypet.ui.theme.GreenOnline
 import com.example.feedlypet.ui.theme.RedLevel
+
 
 @Composable
 fun AppSnackbarHost(hostState: SnackbarHostState) {
@@ -68,17 +70,27 @@ fun StatusChip(isOnline: Boolean) {
 
 @Composable
 fun FoodLevelBar(level: Int, modifier: Modifier = Modifier) {
-    val color = when {
+    val fillColor = when {
         level >= 50 -> GreenOnline
         level >= 20 -> AmberLevel
         else -> RedLevel
     }
-    LinearProgressIndicator(
-        progress = { level / 100f },
-        modifier = modifier.fillMaxWidth(),
-        color = color,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant
-    )
+    val trackColor = MaterialTheme.colorScheme.surfaceVariant
+    Canvas(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(4.dp)
+    ) {
+        val radius = size.height / 2
+        drawRoundRect(color = trackColor, cornerRadius = androidx.compose.ui.geometry.CornerRadius(radius))
+        if (level > 0) {
+            drawRoundRect(
+                color = fillColor,
+                size = size.copy(width = size.width * (level / 100f)),
+                cornerRadius = androidx.compose.ui.geometry.CornerRadius(radius)
+            )
+        }
+    }
 }
 
 @Composable
@@ -170,19 +182,24 @@ fun speciesEmoji(species: String): String = when (species.lowercase()) {
     else -> "🐾"
 }
 
+/** For event timestamps — server stores in local time despite Z suffix, display as-is */
 fun formatTimestamp(iso: String): String {
     return try {
         val instant = java.time.Instant.parse(if (iso.endsWith("Z") || iso.contains("+")) iso else "${iso}Z")
-        val zdt = instant.atZone(java.time.ZoneId.systemDefault())
-        zdt.format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+        java.time.LocalDateTime.ofInstant(instant, java.time.ZoneOffset.UTC)
+            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
     } catch (e: Exception) {
-        try {
-            val ldt = java.time.LocalDateTime.parse(iso.take(19))
-            ldt.atOffset(java.time.ZoneOffset.UTC)
-                .atZoneSameInstant(java.time.ZoneId.systemDefault())
-                .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
-        } catch (e2: Exception) {
-            iso.replace("T", " ").take(16)
-        }
+        iso.replace("T", " ").take(16)
+    }
+}
+
+/** For device lastSeen — real UTC timestamp, convert to Europe/Kiev (UTC+3) */
+fun formatUtcTimestamp(iso: String): String {
+    return try {
+        val instant = java.time.Instant.parse(if (iso.endsWith("Z") || iso.contains("+")) iso else "${iso}Z")
+        instant.atZone(java.time.ZoneId.of("Europe/Kiev"))
+            .format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+    } catch (e: Exception) {
+        iso.replace("T", " ").take(16)
     }
 }

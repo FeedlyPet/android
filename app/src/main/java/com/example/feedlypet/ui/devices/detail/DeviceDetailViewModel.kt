@@ -60,8 +60,20 @@ class DeviceDetailViewModel @Inject constructor(
     fun hideFeedDialog() = _uiState.update { it.copy(showFeedDialog = false) }
     fun showRegenDialog() = _uiState.update { it.copy(showRegenDialog = true) }
     fun hideRegenDialog() = _uiState.update { it.copy(showRegenDialog = false) }
+    fun showDeleteDialog() = _uiState.update { it.copy(showDeleteDialog = true) }
+    fun hideDeleteDialog() = _uiState.update { it.copy(showDeleteDialog = false) }
     fun clearNewPassword() = _uiState.update { it.copy(newPassword = null) }
     fun clearFeedingSuccess() = _uiState.update { it.copy(feedingSuccess = null) }
+
+    fun deleteDevice() {
+        viewModelScope.launch {
+            _uiState.update { it.copy(showDeleteDialog = false, isLoading = true) }
+            when (devicesRepository.deleteDevice(deviceId)) {
+                is AuthResult.Success -> _uiState.update { it.copy(isLoading = false, deleted = true) }
+                else -> _uiState.update { it.copy(isLoading = false, error = UiText.Res(R.string.common_error_network)) }
+            }
+        }
+    }
 
     fun feed(portionSize: Int) {
         viewModelScope.launch {
